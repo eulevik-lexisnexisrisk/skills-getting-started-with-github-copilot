@@ -21,6 +21,45 @@ app.mount("/static", StaticFiles(directory=os.path.join(Path(__file__).parent,
 
 # In-memory activity database
 activities = {
+    # Sports activities
+        "Basketball Team": {
+            "description": "Join the school basketball team and compete in inter-school tournaments",
+            "schedule": "Mondays and Wednesdays, 4:00 PM - 6:00 PM",
+            "max_participants": 15,
+            "participants": ["alex@mergington.edu", "chris@mergington.edu"]
+        },
+        "Swimming Club": {
+            "description": "Improve swimming techniques and participate in swimming competitions",
+            "schedule": "Tuesdays and Thursdays, 4:00 PM - 5:30 PM",
+            "max_participants": 20,
+            "participants": ["sarah@mergington.edu"]
+        },
+        # Artistic activities
+        "Art Studio": {
+            "description": "Express creativity through painting, drawing, and sculpture",
+            "schedule": "Wednesdays, 3:30 PM - 5:30 PM",
+            "max_participants": 15,
+            "participants": ["lily@mergington.edu", "noah@mergington.edu"]
+        },
+        "Drama Club": {
+            "description": "Develop acting skills and participate in school theater productions",
+            "schedule": "Thursdays, 3:30 PM - 5:30 PM",
+            "max_participants": 25,
+            "participants": ["ava@mergington.edu", "james@mergington.edu", "mia@mergington.edu"]
+        },
+        # Intellectual activities
+        "Science Olympiad": {
+            "description": "Compete in science competitions and conduct experiments",
+            "schedule": "Fridays, 3:30 PM - 5:00 PM",
+            "max_participants": 18,
+            "participants": ["ethan@mergington.edu", "isabella@mergington.edu"]
+        },
+        "Debate Team": {
+            "description": "Develop critical thinking and public speaking through competitive debates",
+            "schedule": "Tuesdays, 3:30 PM - 5:00 PM",
+            "max_participants": 16,
+            "participants": ["william@mergington.edu", "charlotte@mergington.edu"]
+        },
     "Chess Club": {
         "description": "Learn strategies and compete in chess tournaments",
         "schedule": "Fridays, 3:30 PM - 5:00 PM",
@@ -61,6 +100,10 @@ def signup_for_activity(activity_name: str, email: str):
 
     # Get the specific activity
     activity = activities[activity_name]
+
+    # Validate student is not already signed up
+    if email in activity["participants"]:
+        raise HTTPException(status_code=400, detail="Student already signed up for this activity")
 
     # Add student
     activity["participants"].append(email)
